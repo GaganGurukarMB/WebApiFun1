@@ -31,18 +31,18 @@ namespace WebApiFun1.Controllers
         public List<string> Insert([FromBody] List<Students> students)
         {
             List<string> result = new List<string>();
-            //foreach (var student in students)
-            //{
-            //    lst.Add(new Students { Name = student.Name, RollNo = student.RollNo, Marks = student.Marks });
-            //    names.Add(student.Name+" Added");
-            //}
-            //return names;
-            //changes
             foreach (var student in students)
             {
-                result.Add(_StudentServices.AddStudent(lst, student));
+                lst.Add(new Students { Name = student.Name, RollNo = student.RollNo, Marks = student.Marks });
+                names.Add(student.Name+" Added");
             }
-            return result;
+            return names;
+            //changes
+            //foreach (var student in students)
+            //{
+            //    result.Add(_StudentServices.AddStudent(lst, student));
+            //}
+            //return result;
         }
 
         [HttpDelete]
@@ -51,9 +51,17 @@ namespace WebApiFun1.Controllers
             List<string> result = new List<string>();
             foreach (var student in students)
             {
-                result.Add(_StudentServices.RemoveStudent(lst, student));
+                int index = lst.FindIndex(stu => stu.RollNo == student.RollNo);
+                lst.RemoveAt(index);
+                result.Add(student.Name+" Removed");
             }
             return result;
+
+            //foreach (var student in students)
+            //{
+            //    result.Add(_StudentServices.RemoveStudent(lst, student));
+            //}
+            //return result;
         }
 
         [HttpPut]
@@ -62,9 +70,18 @@ namespace WebApiFun1.Controllers
             List<string> result = new List<string>();
             foreach (var student in students)
             {
-                result.Add(_StudentServices.UpdateStudent(lst, student));
+                int index = lst.FindIndex(stu => stu.RollNo == student.RollNo);
+                lst[index].Name = student.Name;
+                lst[index].Marks = student.Marks;
+                result.Add(student.Name+" Updated");
             }
             return result;
+            
+            //foreach (var student in students)
+            //{
+            //    result.Add(_StudentServices.UpdateStudent(lst, student));
+            //}
+            //return result;
         }
     }
 }
